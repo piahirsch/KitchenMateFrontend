@@ -10,7 +10,7 @@ const recipes = [
 
 <template>
   <section>
-    <h1>KitchenMate</h1>
+    <h1>My Recipes</h1>
     <RecipeList :recipes="recipes" />
   </section>
 </template>

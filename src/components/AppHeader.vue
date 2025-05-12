@@ -1,6 +1,6 @@
 <template>
     <header class="header">
-      <img src="@/assets/logo.svg" alt="Logo" class="logo" />
+      <img src="@/assets/logo.png" alt="Logo" class="logo" />
       <h1 class="title">KitchenMate</h1>
     </header>
   </template>
@@ -17,7 +17,7 @@
   }
   
   .logo {
-    height: 40px;
+    height: 60px;
     margin-right: 1rem;
   }
   
