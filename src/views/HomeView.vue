@@ -1,12 +1,14 @@
 <template>
-  <div>
+  <div class="home-container">
     <AppHeader
       :recipes="recipes"
       @add="handleAdd"
       @filter-category="filterByCategory"
     />
-    <RecipeList :recipes="filteredRecipes" />
-    <AppFooter></AppFooter>
+    <div class="content">
+      <RecipeList :recipes="filteredRecipes" />
+    </div>
+    <AppFooter />
   </div>
 </template>
 
@@ -45,3 +47,15 @@ function filterByCategory(category: string | null) {
   selectedCategory.value = category
 }
 </script>
+
+<style scoped>
+.home-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+}
+</style>
