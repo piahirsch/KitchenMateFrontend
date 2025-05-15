@@ -1,53 +1,41 @@
 <template>
-  <div class="recipe-grid">
-    <div class="recipe-card" v-for="recipe in recipes" :key="recipe.id">
-      <h2>{{ recipe.name }}</h2>
-      <p><strong>Level:</strong> {{ recipe.difficultyLevel }}</p>
-      <p><strong>Category:</strong> {{ recipe.category }}</p>
-      <p>{{ recipe.description }}</p>
-    </div>
+  <div class="recipe-list">
+    <RecipeCard
+      v-for="recipe in recipes"
+      :key="recipe.id"
+      :recipe="recipe"
+      :expanded="expandedId === recipe.id"
+      @toggle="emit('toggle', recipe.id)"
+    />
   </div>
 </template>
 
-
 <script setup lang="ts">
+import RecipeCard from './RecipeCard.vue'
+import { defineProps, defineEmits } from 'vue'
 
-
-defineProps<{
+const props = defineProps<{
   recipes: {
     id: number
     name: string
     difficultyLevel: string
     category: string
     description: string
+    steps: string[]
   }[]
+  expandedId: number | null
+}>()
+
+const emit = defineEmits<{
+  (e: 'toggle', id: number): void
 }>()
 </script>
 
 <style scoped>
-.recipe-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.2rem;
-}
-
-.recipe-card {
-  width: 250px;
-  height: 200px;
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease;
-  box-sizing: border-box;
+.recipe-list {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.recipe-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
 }
 </style>
