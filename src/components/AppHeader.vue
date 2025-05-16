@@ -54,7 +54,7 @@ const emit = defineEmits(['add', 'filter-category'])
 
 const uniqueCategories = computed(() => {
   const all = props.recipes.map((r) => r.category)
-  return [...new Set(all)]
+  return Array.from(new Set(all))
 })
 </script>
 
@@ -63,7 +63,6 @@ const uniqueCategories = computed(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #ffffff;
   color: rgb(0, 0, 0);
   padding: 1rem 2rem;
 }

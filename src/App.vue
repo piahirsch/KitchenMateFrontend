@@ -31,14 +31,15 @@ if (saved === 'light' || saved === 'dark') {
 // Sync attribute and storage whenever theme changes
 watch(theme, (newTheme) => {
  console.log('Applying theme via watcher:', newTheme);
- document.documentElement.setAttribute('data-theme', newTheme);
+ document.documentElement.className = newTheme;
+
  localStorage.setItem('theme', newTheme);
 });
 
 // Set initial theme on mount
 onMounted(() => {
  console.log('Initial theme on mounted:', theme.value);
- document.documentElement.setAttribute('data-theme', theme.value);
+ document.documentElement.className = theme.value;
 });
 
 // Toggle function
