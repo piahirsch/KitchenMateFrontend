@@ -23,17 +23,10 @@
 <script setup lang="ts">
 import { ref, defineProps, watch } from "vue";
 import YoutubeIFrame from "./YoutubeIFrame.vue";
+import type { Recipe } from "@/types/recipe";
 
 const props = defineProps<{
-  recipe: {
-    id: number;
-    name: string;
-    difficultyLevel: string;
-    category: string;
-    description: string;
-    steps: string[];
-    link?: string;
-  };
+  recipe: Recipe;
 }>();
 
 // Expanded toggle state

@@ -10,19 +10,12 @@
 </template>
 
 <script setup lang="ts">
+import { defineEmits, defineProps } from "vue";
 import RecipeCard from "./RecipeCard.vue";
-import { defineProps, defineEmits } from "vue";
+import type { Recipe } from "@/types/recipe";
 
 const props = defineProps<{
-  recipes: {
-    id: number;
-    name: string;
-    difficultyLevel: string;
-    category: string;
-    description: string;
-    steps: string[];
-    link?: string;
-  }[];
+  recipes: Recipe[];
   expandedId?: number;
 }>();
 
