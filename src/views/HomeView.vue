@@ -27,10 +27,15 @@ import type { Recipe } from "@/types/recipe";
 const recipes = ref<Recipe[]>([]);
 
 onMounted(async () => {
-  const response = await client.get("https://kitchenmate-backend.onrender.com/recipes");
-  console.log("Fetched recipes:", response.data);
-  recipes.value = response.data;
+  try {
+    const response = await client.get("/recipes");
+    console.log("Fetched recipes:", response.data);
+    recipes.value = response.data;
+  } catch (err) {
+    console.error("Error fetching recipes:", err);
+  }
 });
+
 
 const selectedCategory = ref<string | null>(null);
 
