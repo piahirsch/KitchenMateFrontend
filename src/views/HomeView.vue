@@ -6,7 +6,11 @@
       @filter-category="filterByCategory"
     />
     <div class="content">
-      <RecipeList :recipes="filteredRecipes" />
+      <RecipeList v-if="filteredRecipes.length > 0" :recipes="filteredRecipes" />
+      <div v-else>
+        <h2>No recipes found</h2>
+        <p>Try adding a new recipe or category.</p>
+      </div>
     </div>
     <AppFooter />
   </div>
