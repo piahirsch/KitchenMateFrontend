@@ -6,11 +6,7 @@
       @filter-category="filterByCategory"
     />
     <div class="content">
-      <RecipeList v-if="recipes.length > 0" :recipes="filteredRecipes" />
-      <div v-else>
-        <h2>No recipes found</h2>
-        <p>Try adding a new recipe or category.</p>
-      </div>
+      <RecipeList :recipes="filteredRecipes" />
     </div>
     <AppFooter />
   </div>
@@ -27,9 +23,9 @@ import type { Recipe } from "@/types/recipe";
 const recipes = ref<Recipe[]>([]);
 
 onMounted(async () => {
-  const response = await client.get("recipes");
+  const response = await client.get("https://kitchenmate-backend.onrender.com/recipes");
   console.log("Fetched recipes:", response.data);
-  recipes.value = await response.data;
+  recipes.value = response.data;
 });
 
 const selectedCategory = ref<string | null>(null);
