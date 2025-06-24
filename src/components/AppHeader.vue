@@ -7,13 +7,9 @@
 
     <nav class="nav">
       <!-- Add-Dropdown -->
-      <div class="dropdown" @click="toggleDropdown">
-        <button class="add-button">New +</button>
-        <div class="dropdown-menu" v-if="showDropdown">
-          <button @click="emitAdd('recipe')">New recipe</button>
-          <button @click="emitAdd('category')">New category</button>
-        </div>
-      </div>
+      <button class="add-button" @click="$emit('add-recipe')">
+        Neues Rezept +
+      </button>
 
       <!-- Kategorien -->
       <ul class="category-list">
@@ -25,7 +21,7 @@
           {{ category }}
         </li>
         <li @click="$emit('filter-category', null)" class="all-categories">
-          All
+          Alle
         </li>
       </ul>
     </nav>
@@ -33,29 +29,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed } from "vue";
 
 const props = defineProps<{
-  recipes: Array<{ id: number; name: string; category: string }>
-}>()
+  recipes: Array<{ id: number; name: string; category: string }>;
+}>();
 
-const showDropdown = ref(false)
-
-function toggleDropdown() {
-  showDropdown.value = !showDropdown.value
-}
-
-function emitAdd(type: 'recipe' | 'category') {
-  showDropdown.value = false
-  emit('add', type)
-}
-
-const emit = defineEmits(['add', 'filter-category'])
+const emit = defineEmits(["add-recipe", "filter-category"]);
 
 const uniqueCategories = computed(() => {
-  const all = props.recipes.map((r) => r.category)
-  return Array.from(new Set(all))
-})
+  const all = props.recipes.map((r) => r.category);
+  return Array.from(new Set(all));
+});
 </script>
 
 <style scoped>
@@ -100,7 +85,6 @@ const uniqueCategories = computed(() => {
   position: absolute;
   top: 110%;
   left: 0;
-  background: white;
   color: black;
   border-radius: 6px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -119,7 +103,7 @@ const uniqueCategories = computed(() => {
 }
 
 .dropdown-menu button:hover {
-  background-color: #f0f0f0;
+  background-color: var(--color-background-soft);
 }
 
 .category-list {
@@ -140,5 +124,3 @@ const uniqueCategories = computed(() => {
   text-decoration: underline;
 }
 </style>
-
-  

@@ -2,21 +2,21 @@
   <div class="home-container">
     <AppHeader
       :recipes="recipes"
-      @add="openModal"
+      @add-recipe="openRecipeModal"
       @filter-category="filterByCategory"
     />
     <div class="content">
       <RecipeList
-          :recipes="filteredRecipes"
-          @edit="handleEditRecipe"
-          @delete="handleDeleteRecipe"
-          />
+        :recipes="filteredRecipes"
+        @edit="handleEditRecipe"
+        @delete="handleDeleteRecipe"
+      />
     </div>
     <NewRecipeForm
-        v-if="isModalOpen"
-        :edit-recipe="recipeToEdit"
-        @close="closeModal"
-        @added="handleRecipeAdded"
+      v-if="isModalOpen"
+      :editRecipe="recipeToEdit"
+      @close="closeModal"
+      @added="handleRecipeAdded"
     />
 
     <AppFooter />
@@ -37,7 +37,6 @@ const selectedCategory = ref<string | null>(null);
 const isModalOpen = ref(false);
 const recipeToEdit = ref<Recipe | null>(null);
 
-
 const fetchRecipes = async () => {
   try {
     const response = await client.get("/recipes");
@@ -55,6 +54,11 @@ const filteredRecipes = computed(() => {
 });
 
 function openModal() {
+  isModalOpen.value = true;
+}
+
+function openRecipeModal() {
+  recipeToEdit.value = null;
   isModalOpen.value = true;
 }
 

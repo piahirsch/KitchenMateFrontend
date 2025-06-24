@@ -11,6 +11,7 @@ const embeddedSrc = ref<string>(props.src.replace("watch?v=", "embed/"));
 
 <template>
   <iframe
+    v-if="embeddedSrc.split('embed/')[1]"
     :src="embeddedSrc"
     :title="title"
     frameborder="0"

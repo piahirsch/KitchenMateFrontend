@@ -12,8 +12,8 @@
 
     <YoutubeIFrame v-if="recipe.link" :src="recipe.link" title="Recipe Video" />
     <h2>{{ recipe.name }}</h2>
-    <p><strong>Category:</strong> {{ recipe.category }}</p>
-    <p><strong>Level:</strong> {{ recipe.difficultyLevel }}</p>
+    <p><strong>Kategory:</strong> {{ recipe.category }}</p>
+    <p><strong>Schwierigkeitsgrad:</strong> {{ recipe.difficultyLevel }}</p>
     <p>{{ recipe.description }}</p>
 
     <div v-if="expanded" class="details" @click.stop>
@@ -28,13 +28,15 @@
     </div>
 
     <!-- Lösch-Bestätigung -->
+    <Teleport to="body">
     <div v-if="showConfirm" class="modal">
-      <div class="modal-box">
-        <p>Möchtest du das Rezept wirklich löschen?</p>
-        <button @click="deleteRecipe">Ja, löschen</button>
-        <button @click="showConfirm = false">Abbrechen</button>
+        <div class="modal-box">
+          <p>Möchtest du das Rezept wirklich löschen?</p>
+          <button @click="deleteRecipe">Ja, löschen</button>
+          <button @click="showConfirm = false">Abbrechen</button>
+        </div>
       </div>
-    </div>
+    </Teleport>
   </div>
 </template>
 
@@ -57,15 +59,15 @@ const showConfirm = ref(false);
 const storageKey = `recipe-${props.recipe.id}-checked`;
 const saved = localStorage.getItem(storageKey);
 const checkedSteps = ref<boolean[]>(
-    saved ? JSON.parse(saved) : props.recipe.steps.map(() => false)
+  saved ? JSON.parse(saved) : props.recipe.steps.map(() => false)
 );
 
 watch(
-    checkedSteps,
-    (val) => {
-      localStorage.setItem(storageKey, JSON.stringify(val));
-    },
-    { deep: true }
+  checkedSteps,
+  (val) => {
+    localStorage.setItem(storageKey, JSON.stringify(val));
+  },
+  { deep: true }
 );
 
 function toggleExpanded() {
@@ -130,8 +132,6 @@ function editRecipe() {
   position: absolute;
   top: 1.8rem;
   right: 0;
-  background: white;
-  border: 1px solid #ccc;
   border-radius: 6px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   z-index: 10;
@@ -144,7 +144,7 @@ function editRecipe() {
 }
 
 .dropdown div:hover {
-  background: white;
+  background: var(--color-background-soft);
 }
 
 .modal {
@@ -160,7 +160,6 @@ function editRecipe() {
 }
 
 .modal-box {
-  background: white;
   padding: 1.5rem;
   border-radius: 8px;
   text-align: center;

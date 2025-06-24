@@ -1,11 +1,11 @@
 <template>
   <div class="recipe-list">
     <RecipeCard
-        v-for="recipe in recipes"
-        :key="recipe.id"
-        :recipe="recipe"
-        @delete="emit('delete', $event)"
-        @edit="emit('edit', $event)"
+      v-for="recipe in recipes"
+      :key="recipe.id"
+      :recipe="recipe"
+      @delete="emit('delete', recipe.id)"
+      @edit="emit('edit', recipe)"
     />
   </div>
 </template>
@@ -21,7 +21,8 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: "toggle", id: number): void;
+  (e: "edit", recipe: Recipe): void;
+  (e: "delete", id: number): void;
 }>();
 </script>
 
@@ -31,5 +32,6 @@ const emit = defineEmits<{
   flex-wrap: wrap;
   gap: 1rem;
   justify-content: center;
+  align-items: flex-start;
 }
 </style>

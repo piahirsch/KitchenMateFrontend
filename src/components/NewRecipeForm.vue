@@ -9,38 +9,38 @@
         </label>
 
         <label>
-          Description:
+          Beschreibung:
           <textarea v-model="form.description" required></textarea>
         </label>
 
         <label>
-          Category:
+          Kategorie:
           <input v-model="form.category" type="text" required />
         </label>
 
         <label>
-          Difficulty Level:
+          Schwierigkeitsgrad:
           <input v-model="form.difficultyLevel" type="text" required />
         </label>
 
         <label>
           YouTube Link:
-          <input v-model="form.link" type="url" />
+          <input v-model="form.link" type="text" />
         </label>
 
         <label>
-          Steps (comma-separated):
+          Schritte (kommagetrennt):
           <textarea v-model="form.steps"></textarea>
         </label>
 
         <label>
-          Ingredients (comma-separated):
+          Zutaten (kommagetrennt):
           <textarea v-model="form.ingredients"></textarea>
         </label>
 
         <div class="buttons">
-          <button type="submit">Save</button>
-          <button type="button" @click="closeForm">Cancel</button>
+          <button type="submit">Speichern</button>
+          <button type="button" @click="closeForm">Abbrechen</button>
         </div>
       </form>
     </div>
@@ -50,20 +50,12 @@
 <script setup lang="ts">
 import { ref, watch, defineEmits, defineProps } from "vue";
 import { client } from "@/lib/axios";
+import type { Recipe } from "@/types/recipe";
 
 const emit = defineEmits(["close", "added"]);
 
 const props = defineProps<{
-  editRecipe?: {
-    id?: number;
-    name: string;
-    description: string;
-    category: string;
-    difficultyLevel: string;
-    link: string;
-    steps: string[];
-    ingredients: string[];
-  } | null;
+  editRecipe?: Recipe | null;
 }>();
 
 const form = ref({
@@ -92,24 +84,24 @@ function resetForm() {
 
 // Wenn editRecipe sich ändert, fülle Formular mit den Daten oder reset
 watch(
-    () => props.editRecipe,
-    (newRecipe) => {
-      if (newRecipe) {
-        form.value = {
-          id: newRecipe.id,
-          name: newRecipe.name,
-          description: newRecipe.description,
-          category: newRecipe.category,
-          difficultyLevel: newRecipe.difficultyLevel,
-          link: newRecipe.link || "",
-          steps: newRecipe.steps.join(", "),
-          ingredients: newRecipe.ingredients.join(", "),
-        };
-      } else {
-        resetForm();
-      }
-    },
-    { immediate: true }
+  () => props.editRecipe,
+  (newRecipe) => {
+    if (newRecipe) {
+      form.value = {
+        id: newRecipe.id,
+        name: newRecipe.name,
+        description: newRecipe.description,
+        category: newRecipe.category,
+        difficultyLevel: newRecipe.difficultyLevel,
+        link: newRecipe.link || "",
+        steps: newRecipe.steps.join(", "),
+        ingredients: newRecipe.ingredients.join(", "),
+      };
+    } else {
+      resetForm();
+    }
+  },
+  { immediate: true }
 );
 
 async function submitForm() {
@@ -121,11 +113,11 @@ async function submitForm() {
       difficultyLevel: form.value.difficultyLevel,
       link: form.value.link,
       steps: form.value.steps
-          ? form.value.steps.split(",").map((s) => s.trim())
-          : [],
+        ? form.value.steps.split(",").map((s) => s.trim())
+        : [],
       ingredients: form.value.ingredients
-          ? form.value.ingredients.split(",").map((s) => s.trim())
-          : [],
+        ? form.value.ingredients.split(",").map((s) => s.trim())
+        : [],
     };
 
     if (form.value.id) {
@@ -157,7 +149,6 @@ function closeForm() {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -165,7 +156,6 @@ function closeForm() {
 }
 
 .modal-content {
-  background-color: white;
   width: 75%;
   max-width: 1000px;
   padding: 2rem;
