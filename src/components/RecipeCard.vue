@@ -1,12 +1,21 @@
 <template>
   <div class="recipe-card" :class="{ expanded }" @click="toggleExpanded">
+    <div class="card-header">
+      <div class="menu">
+        <button @click.stop="toggleMenu">⋮</button>
+        <div v-if="menuOpen" class="dropdown" @click.stop>
+          <div @click="editRecipe">Bearbeiten</div>
+          <div @click="confirmDelete">Löschen</div>
+        </div>
+      </div>
+    </div>
+
     <YoutubeIFrame v-if="recipe.link" :src="recipe.link" title="Recipe Video" />
     <h2>{{ recipe.name }}</h2>
     <p><strong>Category:</strong> {{ recipe.category }}</p>
     <p><strong>Level:</strong> {{ recipe.difficultyLevel }}</p>
     <p>{{ recipe.description }}</p>
 
-    <!-- Steps only visible if expanded -->
     <div v-if="expanded" class="details" @click.stop>
       <ul>
         <li v-for="(step, index) in recipe.steps" :key="index">
@@ -17,6 +26,15 @@
         </li>
       </ul>
     </div>
+
+    <!-- Lösch-Bestätigung -->
+    <div v-if="showConfirm" class="modal">
+      <div class="modal-box">
+        <p>Möchtest du das Rezept wirklich löschen?</p>
+        <button @click="deleteRecipe">Ja, löschen</button>
+        <button @click="showConfirm = false">Abbrechen</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -25,39 +43,59 @@ import { ref, defineProps, watch } from "vue";
 import YoutubeIFrame from "./YoutubeIFrame.vue";
 import type { Recipe } from "@/types/recipe";
 
-const props = defineProps<{
-  recipe: Recipe;
+const props = defineProps<{ recipe: Recipe }>();
+
+const emit = defineEmits<{
+  (e: "delete", id: number): void;
+  (e: "edit", recipe: Recipe): void;
 }>();
 
-// Expanded toggle state
 const expanded = ref(false);
+const menuOpen = ref(false);
+const showConfirm = ref(false);
 
-// Persist checkbox states in localStorage (per recipe)
 const storageKey = `recipe-${props.recipe.id}-checked`;
 const saved = localStorage.getItem(storageKey);
 const checkedSteps = ref<boolean[]>(
-  saved ? JSON.parse(saved) : props.recipe.steps.map(() => false)
+    saved ? JSON.parse(saved) : props.recipe.steps.map(() => false)
 );
 
-// Save changes to localStorage
 watch(
-  checkedSteps,
-  (val) => {
-    localStorage.setItem(storageKey, JSON.stringify(val));
-  },
-  { deep: true }
+    checkedSteps,
+    (val) => {
+      localStorage.setItem(storageKey, JSON.stringify(val));
+    },
+    { deep: true }
 );
 
 function toggleExpanded() {
   expanded.value = !expanded.value;
 }
+
+function toggleMenu() {
+  menuOpen.value = !menuOpen.value;
+}
+
+function confirmDelete() {
+  menuOpen.value = false;
+  showConfirm.value = true;
+}
+
+function deleteRecipe() {
+  emit("delete", props.recipe.id);
+  showConfirm.value = false;
+}
+
+function editRecipe() {
+  emit("edit", props.recipe);
+  menuOpen.value = false;
+}
 </script>
 
 <style scoped>
 .recipe-card {
+  position: relative;
   width: 300px;
-  min-height: 250px;
-  max-height: fit-content;
   box-sizing: border-box;
   cursor: pointer;
   border: 1px solid #ddd;
@@ -71,15 +109,60 @@ function toggleExpanded() {
   justify-content: flex-start;
 }
 
-.recipe-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+.card-header {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 
-.details {
-  margin-top: 1rem;
+.menu {
+  position: relative;
 }
 
-input[type="checkbox"] {
-  margin-right: 0.5rem;
+.menu button {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: absolute;
+  top: 1.8rem;
+  right: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  min-width: 120px;
+}
+
+.dropdown div {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+.dropdown div:hover {
+  background: white;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-box {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
 }
 </style>

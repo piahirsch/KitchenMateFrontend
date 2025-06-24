@@ -1,10 +1,11 @@
 <template>
   <div class="recipe-list">
     <RecipeCard
-      v-for="recipe in recipes"
-      :key="recipe.id"
-      :recipe="recipe"
-      @toggle="emit('toggle', recipe.id)"
+        v-for="recipe in recipes"
+        :key="recipe.id"
+        :recipe="recipe"
+        @delete="emit('delete', $event)"
+        @edit="emit('edit', $event)"
     />
   </div>
 </template>

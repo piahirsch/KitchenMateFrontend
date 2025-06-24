@@ -2,16 +2,23 @@
   <div class="home-container">
     <AppHeader
       :recipes="recipes"
-      @add="handleAdd"
+      @add="openModal"
       @filter-category="filterByCategory"
     />
     <div class="content">
-      <RecipeList v-if="filteredRecipes.length > 0" :recipes="filteredRecipes" />
-      <div v-else>
-        <h2>No recipes found</h2>
-        <p>Try adding a new recipe or category.</p>
-      </div>
+      <RecipeList
+          :recipes="filteredRecipes"
+          @edit="handleEditRecipe"
+          @delete="handleDeleteRecipe"
+          />
     </div>
+    <NewRecipeForm
+        v-if="isModalOpen"
+        :edit-recipe="recipeToEdit"
+        @close="closeModal"
+        @added="handleRecipeAdded"
+    />
+
     <AppFooter />
   </div>
 </template>
@@ -20,35 +27,58 @@
 import { ref, computed, onMounted } from "vue";
 import AppHeader from "@/components/AppHeader.vue";
 import RecipeList from "@/components/RecipeList.vue";
+import NewRecipeForm from "@/components/NewRecipeForm.vue";
 import AppFooter from "@/components/AppFooter.vue";
 import { client } from "@/lib/axios";
 import type { Recipe } from "@/types/recipe";
 
 const recipes = ref<Recipe[]>([]);
+const selectedCategory = ref<string | null>(null);
+const isModalOpen = ref(false);
+const recipeToEdit = ref<Recipe | null>(null);
 
-onMounted(async () => {
+
+const fetchRecipes = async () => {
   try {
     const response = await client.get("/recipes");
-    console.log("Fetched recipes:", response.data);
     recipes.value = response.data;
   } catch (err) {
     console.error("Error fetching recipes:", err);
   }
-});
+};
 
-
-const selectedCategory = ref<string | null>(null);
+onMounted(fetchRecipes);
 
 const filteredRecipes = computed(() => {
   if (!selectedCategory.value) return recipes.value;
   return recipes.value.filter((r) => r.category === selectedCategory.value);
 });
 
-function handleAdd(type: "recipe" | "category") {
-  if (type === "recipe") {
-    console.log("Recipe");
-  } else {
-    console.log("Category");
+function openModal() {
+  isModalOpen.value = true;
+}
+
+function closeModal() {
+  isModalOpen.value = false;
+  recipeToEdit.value = null;
+}
+
+function handleRecipeAdded() {
+  fetchRecipes();
+  closeModal();
+}
+
+function handleEditRecipe(recipe: Recipe) {
+  recipeToEdit.value = recipe;
+  isModalOpen.value = true;
+}
+
+async function handleDeleteRecipe(id: number) {
+  try {
+    await client.delete(`/recipes/${id}`);
+    fetchRecipes(); // Liste neu laden
+  } catch (err) {
+    console.error("Fehler beim Löschen:", err);
   }
 }
 
@@ -66,5 +96,6 @@ function filterByCategory(category: string | null) {
 
 .content {
   flex: 1;
+  padding: 2rem;
 }
 </style>
