@@ -1,45 +1,71 @@
 # KitchenMateFrontend
 
-This template should help get you started developing with Vue 3 in Vite.
+Gruppenmitglieder:
+- Ngo Tuyet Huong Claudia Dinh
+- Pia Hirsch
 
-## Recommended IDE Setup
+KitchenMate ist eine moderne Rezeptmanager-Webanwendung, bestehend aus einem Java-basierten Backend und einem Vue.js-Frontend. Sie ermöglicht es dir, Rezepte anzulegen, zu durchsuchen, zu bearbeiten und in einer interaktiven Schritt-für-Schritt-Ansicht abzuarbeiten.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-## Type Support for `.vue` Imports in TS
+## Features
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- Karten­übersicht aller Rezepte mit Name, Kategorie, Schwierigkeitsgrad und Beschreibung
+- YouTube-Video-Integration: In der Karte hinterlegte YouTube-Videos lassen sich direkt
+  abspielen
+- Interaktive Schritte: Schritt-für-Schritt-Anleitung mit Checkboxen; Fortschritt wird in
+  localStorage gespeichert
+- CRUD-Funktionalität:
+   - Erstellung neuer Rezepte (Name, Beschreibung, Kategorie, Schwierigkeitsgrad, Link,
+     Schritte, Zutaten)
+   - Bearbeiten vorhandener Rezepte
+   - Löschen mit Bestätigungs­dialog
+- Kategoriefilter: Schnelles Filtern der Rezept­übersicht nach Kategorie
+- Automatische Listen­generierung: Eingabe von Schritten und Zutaten als kommaseparierte
+  Texte wird beim Speichern in Listen­einträge umgewandelt
 
-## Customize configuration
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+## Supported Use Cases
 
-## Project Setup
+1. YouTube-Video abspielen
+  - Rezept mit Video-Link zeigt eingebettetes Player
 
-```sh
-npm install
-```
+2. Neues Rezept erstellen
+  - Formular mit Eingabe von Name, Beschreibung, Kategorie, Schwierigkeitsgrad, Link,
+    Schritten und Zutaten
 
-### Compile and Hot-Reload for Development
+3. Automatische Listen-Erzeugung
+  - Kommagetrennte Schritte und Zutaten werden beim Speichern in HTML-Listen umgewandelt
 
-```sh
-npm run dev
-```
+4. Rezept bearbeiten
+  - Vorhandene Felder im Formular vorbefüllt und änderbar
 
-### Type-Check, Compile and Minify for Production
+5. Rezept löschen
+  - Bestätigungs-Modal verhindert unbeabsichtigtes Löschen
 
-```sh
-npm run build
-```
+6. Interaktive Schritt-Checkboxen
+  - Abgearbeitete Schritte bleiben dank localStorage erhalten
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+7.Kategorie-Filter
+  - Schnelles Eingrenzen der Rezepte nach ausgewählter Kategorie
 
-```sh
-npm run test:unit
-```
+8. Responsive Darstellung
+  - Optimale Anzeige auf verschiedenen Gerätetypen
 
-### Lint with [ESLint](https://eslint.org/)
 
-```sh
-npm run lint
-```
+## API Endpoints
+
+GET
+- /recipes
+- Alle Rezepte abrufen
+
+POST
+- /recipes
+- Neues Rezept erstellen
+
+PUT
+- /recipes/:id
+- Vorhandenes Rezept aktualisieren
+
+DELETE
+- /recipes/:id
+- Rezept löschen
