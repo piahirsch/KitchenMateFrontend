@@ -26,29 +26,29 @@ KitchenMate ist eine moderne Rezeptmanager-Webanwendung, bestehend aus einem Jav
 
 ## Supported Use Cases
 
-1. YouTube-Video abspielen
+1.YouTube-Video abspielen
   - Rezept mit Video-Link zeigt eingebettetes Player
 
-2. Neues Rezept erstellen
+2.Neues Rezept erstellen
   - Formular mit Eingabe von Name, Beschreibung, Kategorie, Schwierigkeitsgrad, Link,
     Schritten und Zutaten
 
-3. Automatische Listen-Erzeugung
+3.Automatische Listen-Erzeugung
   - Kommagetrennte Schritte und Zutaten werden beim Speichern in HTML-Listen umgewandelt
 
-4. Rezept bearbeiten
+4.Rezept bearbeiten
   - Vorhandene Felder im Formular vorbefüllt und änderbar
 
-5. Rezept löschen
+5.Rezept löschen
   - Bestätigungs-Modal verhindert unbeabsichtigtes Löschen
 
-6. Interaktive Schritt-Checkboxen
+6.Interaktive Schritt-Checkboxen
   - Abgearbeitete Schritte bleiben dank localStorage erhalten
 
 7.Kategorie-Filter
   - Schnelles Eingrenzen der Rezepte nach ausgewählter Kategorie
 
-8. Responsive Darstellung
+8.Responsive Darstellung
   - Optimale Anzeige auf verschiedenen Gerätetypen
 
 
