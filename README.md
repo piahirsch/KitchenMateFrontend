@@ -22,6 +22,7 @@ KitchenMate ist eine moderne Rezeptmanager-Webanwendung, bestehend aus einem Jav
 - Kategoriefilter: Schnelles Filtern der Rezept­übersicht nach Kategorie
 - Automatische Listen­generierung: Eingabe von Schritten und Zutaten als kommaseparierte
   Texte wird beim Speichern in Listen­einträge umgewandelt
+- Dark und Lightmode Option, je nach Präferenz auf Knopfdruck
 
 
 ## Supported Use Cases
@@ -50,6 +51,9 @@ KitchenMate ist eine moderne Rezeptmanager-Webanwendung, bestehend aus einem Jav
 
 8.Responsive Darstellung
   - Optimale Anzeige auf verschiedenen Gerätetypen
+
+9.Dark und Lightmode
+  - Je nach Präferenz, optionale Darstellung in Dark oder Lightmode mithilfe eines Switchbuttons
 
 
 ## API Endpoints
