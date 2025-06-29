@@ -1,4 +1,10 @@
 <template>
+  <div class="bgimage">
+    <div class="welcome-title">
+      <p>Dein treuer Rezept manager</p>
+      <h1>KitchenMate</h1>
+    </div>
+  </div>
   <div class="home-container">
     <AppHeader
       :recipes="recipes"
@@ -101,5 +107,38 @@ function filterByCategory(category: string | null) {
 .content {
   flex: 1;
   padding: 2rem;
+}
+
+.bgimage {
+  background-image: url(../assets/bgimage.jpg);
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.welcome-title {
+  text-align: center;
+  padding: 2rem;
+  border-radius: 10px;
+  background-color: transparent;
+    display: flex;
+  flex-direction: column;
+  gap: 0rem; /* controls spacing between <p> and <h1> */
+}
+
+.welcome-title :is(h1, p) {
+  color: #ffeb8f;
+  background-color: transparent;
+}
+
+.welcome-title h1 {
+  font-size: 8rem;
+}
+.welcome-title p {
+  font-size: 2.5rem;
 }
 </style>
