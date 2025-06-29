@@ -1,10 +1,10 @@
 {
   "extends": "./tsconfig.app.json",
-  "include": ["tests", "env.d.ts"],
+  "include": ["src/**/__tests__/*", "env.d.ts"],
   "exclude": [],
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.vitest.tsbuildinfo",
-    "types": ["vitest", "node", "jsdom"],
+    "types": ["node", "jsdom"],
     "lib": []
   }
 }
